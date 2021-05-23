@@ -1,0 +1,139 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Mock ES Modules in Jest',
+  description: 'Mocking different ES module exports in Jest',
+  date: 'May 22, 2021',
+  readTime: 2
+}
+
+export default ({ children }) => <BlogPost meta={meta}>{children}</BlogPost>;
+
+## Overview
+
+Mocking ES modules in Jest could be pretty tricky when you are mixing different kinds of exports. In most
+frontend codebases, usually you will see a mixture of named and default exports, and a mixture of constant
+and function exports. This article will go over these different types of exports and how to mock them in Jest.
+
+## Named function export
+
+This is one of the easiest kinds of exports to mock and you can easily mock the function implementation with 
+Jest's automock capability.
+
+### Example
+
+```javascript
+// foo.js
+export const foo = () => 'foo';
+```
+```javascript
+// foo.test.js
+jest.mock('./foo');
+import { foo } from './foo';
+
+foo.mockImplementation(() => 'bar');
+
+foo(); // 'bar'
+```
+
+### Explain
+
+When module `foo` is mocked by `jest.mock`, all the exported functions will be replaced by `jest.fn()`,
+which allows you to easily mock its implementation with `mockImplementation` method.
+
+### Typescript
+
+When using Typescript, to hint Typescript compiler that `foo` is a mocked function, you could do:
+```typescript
+// foo.test.ts
+(foo as jest.Mock).mockImplementation(() => 'bar');
+```
+
+## Named constant export
+
+Named constant export is slightly harder to mock compared to named function export because constants don't have
+return values and therefore don't have `mockImplementation` method. One way to mock named constant export is
+to mock the whole module with `jest.mock`, import the whole module with a new namespace, and then assign a new
+value to the named export.
+
+### Example
+
+```javascript
+// foo.js
+export const foo = 'foo';
+```
+```javascript
+// foo.test.js
+jest.mock('./foo');
+import * as Foo from './foo';
+
+Foo.foo = 'bar';
+
+foo; // 'bar';
+```
+
+### Explain
+
+By assigning new value to an exported member of a mocked module, we are essentially swapping out the value in the
+last minute before this value is used in other places. Usually this assignment will be caught by linting rule
+`no-import-assign`. If you include the following snippet in the test, it should be save to disable this rule temporarily.
+```javascript
+beforeEach(() => {
+    jest.clearAllMocks();
+})
+```
+
+## Default function export
+
+Default function export can be mocked with `jest.mock` along with an extra field `__esModule`.
+
+### Example
+
+```javascript
+// foo.js
+export default () => 'foo';
+```
+```javascript
+// foo.test.js
+jest.mock('./foo', () => ({
+    __esModule: true,
+    default: jest.fn()
+}))
+import foo from './foo';
+
+foo.mockImplementation(() => 'bar');
+
+foo(); // 'bar'
+```
+
+### Explain
+
+By supplying second argument in `jest.mock`, we allow Jest to provide a module factory for our mocked module. And by setting
+`__esModule`, we are essentially telling Jest that this module is a ES module and therefore it has a "named" export called "default".
+Since functions can be mocked with `jest.fn()`, we are able to change the implementation of mocked function later.
+
+## Default constant export
+
+Default constant export is most limited in terms of flexibility in mocking. The way to mock default constant export
+is very similar to mocking default function export, but we are only able to mock the value once.
+
+### Example
+```javascript
+// foo.js
+export default 'foo';
+```
+```javascript
+// foo.test.js
+jest.mock('./foo', () => ({
+    __esModule: true,
+    default: 'bar'
+}))
+import foo from './foo';
+
+foo; // 'bar'
+```
+
+### Explain
+
+Since default constant export is not re-assignable, we can only define its value at the time the module is mocked.
+Given its limited flexibility in testing, it is not recommended to use default constant exports.

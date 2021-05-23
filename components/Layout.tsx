@@ -41,6 +41,7 @@ export default function Layout({ children, pageTitle, description }) {
           max-width: 600px;
           margin: 2rem auto;
           padding: 0 1rem;
+          line-height: 1.5rem;
         }
       `}</style>
             <main>
