@@ -137,3 +137,7 @@ foo; // 'bar'
 
 Since default constant export is not re-assignable, we can only define its value at the time the module is mocked.
 Given its limited flexibility in testing, it is not recommended to use default constant exports.
+
+## Conclusion
+
+From flexibility point of view, the best way to export is using named function export as it allows you to mock with `mockImplementation` automatically. If you know an exported member in a module is going to be mocked in other tests, it is better to export that member as a function, even when the return value will likely stay unchaged in actual practice.
