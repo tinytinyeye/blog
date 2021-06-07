@@ -1,0 +1,15 @@
+import BlogPost from '../../components/BlogPost'
+import FlexLayoutDemo from '../../components/FlexLayoutDemo';
+
+export const meta = {
+  title: 'Flex layout playground',
+  description: 'Getting familiar with Flex layout',
+  date: 'May 28, 2021',
+  readTime: 2
+}
+
+export default ({ children }) => <BlogPost meta={meta}>{children}</BlogPost>;
+
+### This is a demo for flex layout
+
+<FlexLayoutDemo />
