@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { flexProperties } from './flexProperties';
 
 const FlexLayoutDemo: React.FC = () => {
-  const [property, setProperty] = useState('');
-  const [value, setValue] = useState('');
+  const initialProperty = Object.keys(flexProperties)[0];
+  const initialValue = initialProperty[0];
+  
+  const [property, setProperty] = useState(initialProperty);
+  const [value, setValue] = useState(initialValue);
   const [rules, setRules] = useState({});
   
   const onRemove = (item) => {
@@ -15,8 +18,8 @@ const FlexLayoutDemo: React.FC = () => {
   
   const onAdd = () => {
       setRules({ ...rules, [property]: value });
-      setProperty('');
-      setValue('');
+      setProperty(initialProperty);
+      setValue(initialValue);
   };
   
   const activeRule = property && value ? { [property]: value } : {};
