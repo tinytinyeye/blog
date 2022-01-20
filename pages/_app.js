@@ -1,7 +1,6 @@
 import { MDXProvider } from '@mdx-js/react';
 
-import Layout from "../components/Layout";
-
+import '../styles/main.css';
 import '../styles/prism.css';
 
 const components = {
@@ -11,9 +10,7 @@ const components = {
 export default function App({ Component, pageProps }) {
   return (
     <MDXProvider components={components}>
-      <Layout pageTitle="Blog" description="My Personal Blog">
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </MDXProvider>
   );
 }
