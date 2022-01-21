@@ -1,0 +1,48 @@
+import React from 'react';
+import { Box, Divider, Typography } from '@mui/material';
+
+import LetterInput from './LetterInput';
+
+const WordleSolver = () => {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100vw',
+                height: '100vh',
+                backgroundColor: 'black',
+            }}
+        >
+            <Box
+                sx={{
+                    minWidth: '32rem',
+                    maxWidth: '60vw',
+                    alignSelf: 'center',
+                }}
+            >
+                <Typography
+                    variant="h4"
+                    component="h1"
+                    sx={{ color: 'white', py: 2, fontWeight: '300' }}
+                >
+                    Wordle Solver
+                </Typography>
+                <Divider sx={{ borderColor: 'white', width: '100%' }} />
+                <Typography
+                    variant="h6"
+                    sx={{ color: 'white', py: 2, textAlign: 'center' }}
+                >
+                    Placed letters
+                </Typography>
+                <LetterInput
+                    variant="placed"
+                    onChange={() => {}}
+                    onComplete={() => {}}
+                />
+            </Box>
+        </Box>
+    );
+};
+
+export default WordleSolver;
