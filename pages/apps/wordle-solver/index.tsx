@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Divider, Input, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 
-import LetterInput from '../../../components/LetterInput';
+import LetterInput from 'components/LetterInput';
 
 // #538d4e
 

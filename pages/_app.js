@@ -1,7 +1,7 @@
 import { MDXProvider } from '@mdx-js/react';
 
-import '../styles/main.css';
-import '../styles/prism.css';
+import 'styles/main.css';
+import 'styles/prism.css';
 
 const components = {
   inlineCode: ({ children, ...rest }) => <code className="language-javascript" {...rest}>{children}</code>

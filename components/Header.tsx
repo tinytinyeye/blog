@@ -1,18 +1,21 @@
 import Link from "next/link";
 
 export default function Header() {
-    return (
-        <nav>
-            <h1>Frankie's Blog</h1>
-            <div>
-                <Link href="/">
-                    <a>Blog</a>
-                </Link>
-                <Link href="/">
-                    <a>About</a>
-                </Link>
-            </div>
-            <style jsx>{`
+  return (
+    <nav>
+      <h1>Frankie&apos;s Blog</h1>
+      <div>
+        <Link href="/">
+          <a>Blog</a>
+        </Link>
+        <Link href="/">
+          <a>About</a>
+        </Link>
+        <Link href="/apps/wordle-solver">
+          <a>Wordle Solver</a>
+        </Link>
+      </div>
+      <style jsx>{`
         nav {
           background: #444;
           width: auto;
@@ -30,6 +33,6 @@ export default function Header() {
           text-decoration: underline;
         }
       `}</style>
-        </nav>
-    );
+    </nav>
+  );
 }
