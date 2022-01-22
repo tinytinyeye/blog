@@ -1,0 +1,17 @@
+import React, { createContext, useReducer } from 'react';
+
+import { initialState, reducer, LettersState, LettersAction } from './hooks';
+
+export const LettersContext = createContext<
+    [LettersState, React.Dispatch<LettersAction>]
+>([initialState, () => {}]);
+
+export const Store: React.FC = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    return (
+        <LettersContext.Provider value={[state, dispatch]}>
+            {children}
+        </LettersContext.Provider>
+    );
+};
