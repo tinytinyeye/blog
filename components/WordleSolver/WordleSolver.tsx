@@ -40,6 +40,7 @@ const WordleSolver = () => {
                 width: '100vw',
                 height: '100vh',
                 backgroundColor: 'black',
+                overflowY: 'auto',
             }}
         >
             <Box
@@ -65,12 +66,16 @@ const WordleSolver = () => {
                 <PlacedLetters />
                 <ValidLetters />
                 <BadLetters />
-                <Button onClick={onUpdate}>Update</Button>
-                <ul>
-                    {suggestions.map((suggestion) => (
-                        <li key={suggestion}>{suggestion}</li>
-                    ))}
-                </ul>
+                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 3 }}>
+                    <Button variant="contained" onClick={onUpdate} sx={{ alignSelf: 'center' }}>
+                        Update
+                    </Button>
+                    <Box component="ul" sx={{ alignSelf: 'center' }}>
+                        {suggestions.map((suggestion) => (
+                            <Box component="li" key={suggestion}>{suggestion}</Box>
+                        ))}
+                    </Box>
+                </Box>
             </Box>
         </Box>
     );
