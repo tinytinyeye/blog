@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import Letters from './Letters';
 import { LettersContext } from './Store';
-import { clearPlacedLetters, setPlacedLetter, useLetters } from './hooks';
+import { clearPlacedLetters, setPlacedLetter } from './hooks';
 
 const PlacedLetters = () => {
     const [state] = useContext(LettersContext);

@@ -8,7 +8,6 @@ export const Header = () => (
                 <a>Blog</a>
             </Link>
             <Link href="/">
-                ww
                 <a>About</a>
             </Link>
             <Link href="/app/wordle-solver">
