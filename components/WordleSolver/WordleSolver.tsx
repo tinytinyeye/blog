@@ -1,36 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import React, { useContext } from 'react';
+import { Box, Divider, Typography } from '@mui/material';
 
 import PlacedLetters from './PlacedLetters';
 import ValidLetters from './ValidLetters';
 import BadLetters from './BadLetters';
 import { LettersContext } from './Store';
+import { useLettersSuggestions } from './hooks';
+import MostLikelyVowels from './MostLikelyVowels';
+import MostLikelyLetters from './MostLikelyLetters';
 
 const WordleSolver = () => {
     const [state] = useContext(LettersContext);
-    const { placedLetters, validLetters, badLetters } = state;
-    const [suggestions, setSuggestions] = useState([]);
-
-    const onUpdate = () => {
-        const placedLettersParam = placedLetters
-            .map((char) => char.toLowerCase())
-            .join(',');
-        const validLettersParam = validLetters
-            .map((char) => char.toLowerCase())
-            .join(',');
-        const badLettersParam = badLetters
-            .map((char) => char.toLowerCase())
-            .join(',');
-
-        const url = `/api/getWordleSuggestions?placedLetters=${placedLettersParam}&validLetters=${validLettersParam}&badLetters=${badLettersParam}`;
-
-        fetch(url)
-            .then((res) => res.json())
-            .then(({ suggestions }) => {
-                setSuggestions(suggestions);
-            })
-            .catch((err) => console.log(err));
-    };
+    const { data, isLoading } = useLettersSuggestions(state);
+    const suggestions = isLoading ? [] : data.suggestions;
+    const mostLikelyVowels = isLoading ? {} : data.mostLikelyVowels;
+    const mostLikelyLetters = isLoading ? {} : data.mostLikelyLetters;
 
     return (
         <Box
@@ -39,14 +23,13 @@ const WordleSolver = () => {
                 flexDirection: 'column',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: 'black',
-                overflowY: 'auto',
+                backgroundColor: '#121213',
             }}
         >
             <Box
                 sx={{
-                    minWidth: '32rem',
-                    maxWidth: '60vw',
+                    minWidth: '80vw',
+                    maxWidth: '80rem',
                     alignSelf: 'center',
                 }}
             >
@@ -54,7 +37,7 @@ const WordleSolver = () => {
                     variant="h4"
                     component="h1"
                     sx={{
-                        color: 'white',
+                        color: '#d7dadc',
                         py: 2,
                         fontWeight: '300',
                         textAlign: 'center',
@@ -67,12 +50,20 @@ const WordleSolver = () => {
                 <ValidLetters />
                 <BadLetters />
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 3 }}>
-                    <Button variant="contained" onClick={onUpdate} sx={{ alignSelf: 'center' }}>
-                        Update
-                    </Button>
-                    <Box component="ul" sx={{ alignSelf: 'center' }}>
+                    <MostLikelyVowels analysis={mostLikelyVowels} />
+                    <MostLikelyLetters analysis={mostLikelyLetters} />
+                    <Box
+                        component="ul"
+                        sx={{
+                            alignSelf: 'center',
+                            height: '15vh',
+                            overflowY: 'scroll',
+                        }}
+                    >
                         {suggestions.map((suggestion) => (
-                            <Box component="li" key={suggestion}>{suggestion}</Box>
+                            <Box component="li" key={suggestion}>
+                                {suggestion}
+                            </Box>
                         ))}
                     </Box>
                 </Box>

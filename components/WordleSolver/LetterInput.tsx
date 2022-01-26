@@ -23,8 +23,9 @@ const LetterInput = React.forwardRef<HTMLInputElement, LetterInputProps>(
                 sx={{
                     backgroundColor: value
                         ? variantToBackgroundColor[variant]
-                        : 'white',
-                    color: value ? 'white' : 'black',
+                        : '#121213',
+                    border: '2px solid #3a3a3c',
+                    color: value ? '#d7dadc' : '#3a3a3c',
                     width: '3rem',
                     height: '3rem',
                     p: 0,
