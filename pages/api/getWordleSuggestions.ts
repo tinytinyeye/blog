@@ -14,10 +14,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
         res.json({ error: 'missing parameters', query: req.query });
     } else {
         res.statusCode = 200;
-        const suggestions = WordleSolverService.getSuggestions(
-            req.query as unknown as GetWordleSuggestionsRawQuery
-        );
-        res.json({ suggestions });
+        const { suggestions, mostLikelyVowels, mostLikelyLetters } =
+            WordleSolverService.getReport(
+                req.query as unknown as GetWordleSuggestionsRawQuery
+            );
+        res.json({ suggestions, mostLikelyVowels, mostLikelyLetters });
     }
 };
 

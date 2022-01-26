@@ -24,7 +24,8 @@ const parseRawQuery = (
     };
 };
 
-const alphabets = 'abcdefghijklmnopqrstuvwxyz,'.split('');
+const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const vowels = 'aeiou'.split('');
 
 const validateQuery = (query: GetWordleSuggestionsQuery) => {
     const { placedLetters, validLetters, badLetters } = query;
@@ -40,6 +41,16 @@ const validateQuery = (query: GetWordleSuggestionsQuery) => {
         placedLetters.length !== 5 || validLetters.length !== 5;
 
     return !(hasInvalidCharacters || hasInvalidLength);
+};
+
+const isEmptyQuery = (query: GetWordleSuggestionsQuery) => {
+    const { placedLetters, validLetters, badLetters } = query;
+
+    return (
+        placedLetters.every((char) => !char) &&
+        validLetters.every((char) => !char) &&
+        !badLetters.length
+    );
 };
 
 const buildFilter = (query: GetWordleSuggestionsQuery) => {
@@ -65,7 +76,8 @@ const buildFilter = (query: GetWordleSuggestionsQuery) => {
         ...badLettersFilters,
     ];
 
-    return (word: string) => filters.map((filter) => filter(word)).every(Boolean);
+    return (word: string) =>
+        filters.map((filter) => filter(word)).every(Boolean);
 };
 
 class WordleSolverService {
@@ -74,15 +86,89 @@ class WordleSolverService {
         this.dictionary = dictionary;
     }
 
-    getSuggestions(rawQuery: GetWordleSuggestionsRawQuery) {
-        const query = parseRawQuery(rawQuery);
-        if (!validateQuery(query)) {
-            return [];
-        }
+    getMostLikelyVowels(
+        query: GetWordleSuggestionsQuery,
+        suggestions: string[]
+    ) {
+        const { placedLetters, validLetters, badLetters } = query;
+        const availableVowels = vowels.filter(
+            (vowel) =>
+                !placedLetters.includes(vowel) &&
+                !validLetters.includes(vowel) &&
+                !badLetters.includes(vowel)
+        );
+        const analysis = availableVowels
+            .map((vowel) => ({ [vowel]: 0 }))
+            .reduce((acc, cur) => Object.assign(acc, cur), {});
 
+        suggestions.forEach((s) => {
+            availableVowels.forEach((v) => {
+                if (s.includes(v)) {
+                    analysis[v] = analysis[v] + 1;
+                }
+            });
+        });
+
+        Object.keys(analysis).forEach((letter) => {
+            analysis[letter] = analysis[letter] / suggestions.length;
+        });
+
+        return analysis;
+    }
+
+    getMostLikelyLetters(
+        query: GetWordleSuggestionsQuery,
+        suggestions: string[]
+    ) {
+        const { placedLetters, validLetters, badLetters } = query;
+        const availableLetters = alphabets.filter(
+            (l) =>
+                !vowels.includes(l) &&
+                !placedLetters.includes(l) &&
+                !validLetters.includes(l) &&
+                !badLetters.includes(l)
+        );
+
+        const analysis = availableLetters
+            .map((vowel) => ({ [vowel]: 0 }))
+            .reduce((acc, cur) => Object.assign(acc, cur), {});
+
+        suggestions.forEach((s) => {
+            availableLetters.forEach((v) => {
+                if (s.includes(v)) {
+                    analysis[v] = analysis[v] + 1;
+                }
+            });
+        });
+
+        Object.keys(analysis).forEach((letter) => {
+            analysis[letter] = analysis[letter] / suggestions.length;
+        });
+
+        return analysis;
+    }
+
+    getSuggestions(query: GetWordleSuggestionsQuery) {
         const filter = buildFilter(query);
 
         return dictionary.filter(filter);
+    }
+
+    getReport(rawQuery: GetWordleSuggestionsRawQuery) {
+        const query = parseRawQuery(rawQuery);
+        if (!validateQuery(query) || isEmptyQuery(query)) {
+            return {
+                suggestions: [],
+                mostLikelyVowels: {},
+                mostLikelyLetters: {},
+            };
+        }
+
+        const suggestions = this.getSuggestions(query);
+        const mostLikelyVowels = this.getMostLikelyVowels(query, suggestions);
+        const mostLikelyLetters = this.getMostLikelyLetters(query, suggestions);
+
+        return { suggestions, mostLikelyVowels, mostLikelyLetters };
     }
 }
 

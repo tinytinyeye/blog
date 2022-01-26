@@ -1,5 +1,5 @@
 import { Layout, Post } from 'components/Blog';
-import { posts } from 'getAllPosts';
+import { posts } from 'utils/getAllPosts';
 
 export default function IndexPage() {
     return (

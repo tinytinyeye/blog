@@ -18,7 +18,7 @@ interface LettersProps {
     title: string;
 }
 
-const LETTERS_PER_ROW = 5;
+export const LETTERS_PER_ROW = 5;
 
 const Letters: React.FC<LettersProps> = ({
     variant,

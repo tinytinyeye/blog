@@ -6,5 +6,5 @@ function importAll(r) {
 }
 
 export const posts = importAll(
-    require.context("./pages/blog/", true, /\.mdx$/)
+    require.context("pages/blog/", true, /\.mdx$/)
 ).filter(({ link }) => !link.startsWith('ages'));

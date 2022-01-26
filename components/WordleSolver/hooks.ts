@@ -1,4 +1,7 @@
-import { useRef, useState, useReducer } from 'react';
+import { useRef } from 'react';
+import useSWR from 'swr'
+
+import { fetcher } from 'utils/networks';
 
 export interface LettersState {
     placedLetters: string[];
@@ -17,8 +20,8 @@ interface ClearSlotPayload {
 }
 
 export interface LettersAction<Payload = SetSlotPayload | ClearSlotPayload> {
-    type: 'SET_LETTER' | 'CLEAR_LETTERS';
-    payload: Payload;
+    type: 'SET_LETTER' | 'CLEAR_LETTERS' | 'CLEAR_ALL';
+    payload?: Payload;
 }
 
 export const initialState: LettersState = {
@@ -51,6 +54,11 @@ export const reducer = (state: LettersState, action: LettersAction) => {
                 [slot]: Array(state[slot].length).fill(''),
             };
         }
+        case 'CLEAR_ALL': {
+            return initialState;
+        }
+        default:
+            return state;
     }
 };
 
@@ -85,6 +93,7 @@ export const clearBadLetters: ClearLettersActionCreator = () => ({
     type: 'CLEAR_LETTERS',
     payload: { slot: 'badLetters' },
 });
+export const clearAll = (): LettersAction => ({ type: 'CLEAR_ALL' });
 
 export const useLetters = (
     num: number,
@@ -110,5 +119,27 @@ export const useLetters = (
     return {
         refs,
         onChangeHandlers,
+    };
+};
+
+export const useLettersSuggestions = (state: LettersState) => {
+    const { placedLetters, validLetters, badLetters } = state;
+
+    const placedLettersParam = placedLetters
+        .map((char) => char.toLowerCase())
+        .join(',');
+    const validLettersParam = validLetters
+        .map((char) => char.toLowerCase())
+        .join(',');
+    const badLettersParam = badLetters
+        .map((char) => char.toLowerCase())
+        .join(',');
+
+    const { data, error } = useSWR(`/api/getWordleSuggestions?placedLetters=${placedLettersParam}&validLetters=${validLettersParam}&badLetters=${badLettersParam}`, fetcher);
+
+    return {
+        data,
+        isLoading: !error && !data,
+        isError: error,
     };
 };
