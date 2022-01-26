@@ -33,11 +33,11 @@ const Letters: React.FC<LettersProps> = ({
     );
 
     return (
-        <Box>
+        <Box sx={{ mb: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Typography
                     variant="h6"
-                    sx={{ color: 'white', py: 2, textAlign: 'center' }}
+                    sx={{ color: '#d7dadc', py: 1, textAlign: 'center' }}
                 >
                     {title}
                 </Typography>
@@ -45,7 +45,7 @@ const Letters: React.FC<LettersProps> = ({
                     aria-label={`Clear ${title}`}
                     onClick={() => dispatch(clearLetters())}
                 >
-                    <Delete sx={{ fill: 'white' }} />
+                    <Delete sx={{ fill: '#d7dadc' }} />
                 </IconButton>
             </Box>
             {Array(letters.length / LETTERS_PER_ROW)
@@ -57,7 +57,7 @@ const Letters: React.FC<LettersProps> = ({
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexWrap: 'wrap',
-                            mt: row > 0 ? 2 : 0,
+                            mt: row > 0 ? 1 : 0,
                         }}
                         key={`${variant}_letter_row_${row}P`}
                     >
@@ -71,7 +71,7 @@ const Letters: React.FC<LettersProps> = ({
                                         variant={variant}
                                         value={letters[i]}
                                         onChange={onChangeHandlers[i]}
-                                        sx={{ mr: 2 }}
+                                        sx={{ mr: 1 }}
                                         ref={(el) => (refs.current[i] = el)}
                                         key={`${variant}_letter_${i}`}
                                     />

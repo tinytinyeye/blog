@@ -39,14 +39,13 @@ const WordleSolver = () => {
                 flexDirection: 'column',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: 'black',
-                overflowY: 'auto',
+                backgroundColor: '#121213'
             }}
         >
             <Box
                 sx={{
-                    minWidth: '32rem',
-                    maxWidth: '60vw',
+                    minWidth: '80vw',
+                    maxWidth: '80rem',
                     alignSelf: 'center',
                 }}
             >
@@ -54,7 +53,7 @@ const WordleSolver = () => {
                     variant="h4"
                     component="h1"
                     sx={{
-                        color: 'white',
+                        color: '#d7dadc',
                         py: 2,
                         fontWeight: '300',
                         textAlign: 'center',
@@ -70,7 +69,7 @@ const WordleSolver = () => {
                     <Button variant="contained" onClick={onUpdate} sx={{ alignSelf: 'center' }}>
                         Update
                     </Button>
-                    <Box component="ul" sx={{ alignSelf: 'center' }}>
+                    <Box component="ul" sx={{ alignSelf: 'center', height: '10vh', overflowY: 'scroll' }}>
                         {suggestions.map((suggestion) => (
                             <Box component="li" key={suggestion}>{suggestion}</Box>
                         ))}
