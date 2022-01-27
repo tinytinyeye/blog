@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
-import { Box, Divider, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Box, Divider, Typography, Tab } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import PlacedLetters from './PlacedLetters';
 import ValidLetters from './ValidLetters';
@@ -8,6 +9,7 @@ import { LettersContext } from './Store';
 import { useLettersSuggestions } from './hooks';
 import MostLikelyVowels from './MostLikelyVowels';
 import MostLikelyLetters from './MostLikelyLetters';
+import Suggestions from './Suggestions';
 
 const WordleSolver = () => {
     const [state] = useContext(LettersContext);
@@ -15,6 +17,12 @@ const WordleSolver = () => {
     const suggestions = isLoading ? [] : data.suggestions;
     const mostLikelyVowels = isLoading ? {} : data.mostLikelyVowels;
     const mostLikelyLetters = isLoading ? {} : data.mostLikelyLetters;
+
+    const [value, setValue] = useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     return (
         <Box
@@ -45,27 +53,38 @@ const WordleSolver = () => {
                 >
                     Wordle Solver
                 </Typography>
-                <Divider sx={{ borderColor: 'white', width: '100%' }} />
+                <Divider sx={{ borderColor: '#d7dadc', width: '100%' }} />
                 <PlacedLetters />
                 <ValidLetters />
                 <BadLetters />
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 3 }}>
-                    <MostLikelyVowels analysis={mostLikelyVowels} />
-                    <MostLikelyLetters analysis={mostLikelyLetters} />
-                    <Box
-                        component="ul"
-                        sx={{
-                            alignSelf: 'center',
-                            height: '15vh',
-                            overflowY: 'scroll',
-                        }}
-                    >
-                        {suggestions.map((suggestion) => (
-                            <Box component="li" key={suggestion}>
-                                {suggestion}
-                            </Box>
-                        ))}
-                    </Box>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList
+                                onChange={handleChange}
+                                aria-label="Suggestion tabs"
+                                variant="fullWidth"
+                            >
+                                <Tab
+                                    label="Letters"
+                                    value="1"
+                                    sx={{ color: '#d7dadc' }}
+                                />
+                                <Tab
+                                    label="Words"
+                                    value="2"
+                                    sx={{ color: '#d7dadc' }}
+                                />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1">
+                            <MostLikelyVowels analysis={mostLikelyVowels} />
+                            <MostLikelyLetters analysis={mostLikelyLetters} />
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <Suggestions suggestions={suggestions} />
+                        </TabPanel>
+                    </TabContext>
                 </Box>
             </Box>
         </Box>

@@ -8,7 +8,10 @@ interface MostLikelyLettersProps {
 }
 
 const MostLikelyLetters: React.FC<MostLikelyLettersProps> = ({ analysis }) => {
-    const entries = Object.entries(analysis).sort(([, a], [, b]) => b - a).slice(0, 10);
+    const entries = Object.entries(analysis)
+        .sort(([, a], [, b]) => b - a)
+        .filter(([, p]) => p >= 0.00001)
+        .slice(0, 10);
 
     const numberOfRows = Math.ceil(entries.length / LETTERS_PER_ROW);
 
