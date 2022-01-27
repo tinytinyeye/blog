@@ -27,7 +27,7 @@ export interface LettersAction<Payload = SetSlotPayload | ClearSlotPayload> {
 export const initialState: LettersState = {
     placedLetters: Array(5).fill(''),
     validLetters: Array(5).fill(''),
-    badLetters: Array(10).fill(''),
+    badLetters: Array(15).fill(''),
 };
 
 export const reducer = (state: LettersState, action: LettersAction) => {

@@ -44,7 +44,8 @@ const LetterResult: React.FC<LetterResultProps> = ({
                     p: 0,
                     justifyContent: 'center',
                     fontSize: '20px',
-                    mb: 1
+                    mb: 1,
+                    textTransform: 'uppercase'
                 }}
             >
                 {letter}
