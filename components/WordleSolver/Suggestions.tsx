@@ -14,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Suggestions: React.FC<{ suggestions: string[] }> = ({ suggestions }) => (
-    <Box sx={{ flexGrow: 1, height: '25vh', overflowY: 'scroll' }}>
+    <Box sx={{ flexGrow: 1, height: '20vh', overflowY: 'scroll' }}>
         <Grid container spacing={2}>
             {suggestions.map((suggestion) => (
                 <Grid item xs={4} md={2} key={`suggestion_${suggestion}`}>

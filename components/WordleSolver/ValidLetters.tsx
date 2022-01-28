@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { QuestionMark } from '@mui/icons-material';
 
 import Letters from './Letters';
 import { LettersContext } from './Store';
 import { clearValidLetters, setValidLetter } from './hooks';
+import { variantToBackgroundColor } from './LetterInput';
 
 const ValidLetters = () => {
     const [state] = useContext(LettersContext);
@@ -15,6 +17,7 @@ const ValidLetters = () => {
             setLetter={setValidLetter}
             clearLetters={clearValidLetters}
             title="Valid letters"
+            icon={<QuestionMark sx={{ fill: variantToBackgroundColor.valid }} />}
         />
     );
 };

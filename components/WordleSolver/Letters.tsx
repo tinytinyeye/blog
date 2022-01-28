@@ -16,6 +16,7 @@ interface LettersProps {
     setLetter: SetLetterActionCreator;
     clearLetters: ClearLettersActionCreator;
     title: string;
+    icon: React.ReactNode;
 }
 
 export const LETTERS_PER_ROW = 5;
@@ -26,6 +27,7 @@ const Letters: React.FC<LettersProps> = ({
     setLetter,
     clearLetters,
     title,
+    icon
 }) => {
     const [_, dispatch] = useContext(LettersContext);
     const { refs, onChangeHandlers } = useLetters(letters.length, (payload) =>
@@ -34,7 +36,10 @@ const Letters: React.FC<LettersProps> = ({
 
     return (
         <Box sx={{ mb: 1 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box sx={{ mr: 1 }}>
+                {icon}
+                </Box>
                 <Typography
                     variant="h6"
                     sx={{ color: '#d7dadc', py: 1, textAlign: 'center' }}
@@ -57,7 +62,7 @@ const Letters: React.FC<LettersProps> = ({
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexWrap: 'wrap',
-                            mt: row > 0 ? 1 : 0,
+                            mt: row > 0 ? 0.5 : 0,
                         }}
                         key={`${variant}_letter_row_${row}P`}
                     >
@@ -71,7 +76,7 @@ const Letters: React.FC<LettersProps> = ({
                                         variant={variant}
                                         value={letters[i]}
                                         onChange={onChangeHandlers[i]}
-                                        sx={{ mr: 1 }}
+                                        sx={{ mr: 0.5 }}
                                         ref={(el) => (refs.current[i] = el)}
                                         key={`${variant}_letter_${i}`}
                                     />

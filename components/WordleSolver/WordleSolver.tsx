@@ -77,11 +77,11 @@ const WordleSolver = () => {
                                 />
                             </TabList>
                         </Box>
-                        <TabPanel value="1">
+                        <TabPanel value="1" sx={{ p: 2 }}>
                             <MostLikelyVowels analysis={mostLikelyVowels} />
                             <MostLikelyLetters analysis={mostLikelyLetters} />
                         </TabPanel>
-                        <TabPanel value="2">
+                        <TabPanel value="2" sx={{ p: 2 }}>
                             <Suggestions suggestions={suggestions} />
                         </TabPanel>
                     </TabContext>
