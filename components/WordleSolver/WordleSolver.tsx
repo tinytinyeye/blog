@@ -57,7 +57,7 @@ const WordleSolver = () => {
                 <PlacedLetters />
                 <ValidLetters />
                 <BadLetters />
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 3 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList
