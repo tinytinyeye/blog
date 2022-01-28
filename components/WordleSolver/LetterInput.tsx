@@ -10,7 +10,7 @@ interface LetterInputProps {
     sx?: SxProps;
 }
 
-const variantToBackgroundColor = {
+export const variantToBackgroundColor = {
     placed: '#538d4e',
     valid: '#b59f3b',
     bad: '#3a3a3c',

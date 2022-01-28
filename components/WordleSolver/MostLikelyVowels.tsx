@@ -7,10 +7,19 @@ interface MostLikelyVowelsProps {
 }
 
 const MostLikelyVowels: React.FC<MostLikelyVowelsProps> = ({ analysis }) => {
-    const entries = Object.entries(analysis).sort(([, a], [, b]) => b - a);
+    const entries = Object.entries(analysis)
+        .sort(([, a], [, b]) => b - a)
+        .filter(([, p]) => p >= 0.00001);
 
     return (
-        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', mb: 2 }}>
+        <Box
+            sx={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'center',
+                mb: 2,
+            }}
+        >
             {entries.map(([letter, probability]) => (
                 <LetterResult
                     key={`letter_result_${letter}`}
