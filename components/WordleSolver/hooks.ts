@@ -112,7 +112,7 @@ export const useLetters = (
         .fill(1)
         .map((_, i) => ({ target: { value } }) => {
             const char = value ? value[0] : '';
-            setChar({ index: i, value: char });
+            setChar({ index: i, value: char.toLowerCase() });
             if (char) onCompleteHandlers[i]();
         });
 

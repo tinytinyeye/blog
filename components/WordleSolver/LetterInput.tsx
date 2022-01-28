@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, SxProps } from '@mui/material';
+import { palette } from './colors';
 
 export type LetterVariant = 'placed' | 'valid' | 'bad';
 
@@ -11,9 +12,9 @@ interface LetterInputProps {
 }
 
 export const variantToBackgroundColor = {
-    placed: '#538d4e',
-    valid: '#b59f3b',
-    bad: '#3a3a3c',
+    placed: palette.green,
+    valid: palette.yellow,
+    bad: palette.gray,
 };
 
 const LetterInput = React.forwardRef<HTMLInputElement, LetterInputProps>(
@@ -23,9 +24,9 @@ const LetterInput = React.forwardRef<HTMLInputElement, LetterInputProps>(
                 sx={{
                     backgroundColor: value
                         ? variantToBackgroundColor[variant]
-                        : '#121213',
-                    border: '2px solid #3a3a3c',
-                    color: value ? '#d7dadc' : '#3a3a3c',
+                        : palette.black,
+                    border: `2px solid ${palette.gray}`,
+                    color: value ? palette.white : palette.gray,
                     width: '3rem',
                     height: '3rem',
                     p: 0,
