@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, SxProps } from '@mui/material';
+import { palette } from './colors';
 
 export type LetterResultVariant = 'vowel' | 'letter';
 
@@ -12,8 +13,8 @@ interface LetterResultProps {
 }
 
 const variantToBackgroundColor = {
-    vowel: '#538d4e',
-    letter: '#3a3a3c',
+    vowel: palette.green,
+    letter: palette.gray,
 };
 
 const LetterResult: React.FC<LetterResultProps> = ({
@@ -28,7 +29,7 @@ const LetterResult: React.FC<LetterResultProps> = ({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                color: '#d7dadc',
+                color: palette.white,
                 width: '3rem',
                 height: '3rem',
                 ...sx,

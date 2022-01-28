@@ -10,6 +10,7 @@ import { useLettersSuggestions } from './hooks';
 import MostLikelyVowels from './MostLikelyVowels';
 import MostLikelyLetters from './MostLikelyLetters';
 import Suggestions from './Suggestions';
+import { palette } from './colors';
 
 const WordleSolver = () => {
     const [state] = useContext(LettersContext);
@@ -31,7 +32,7 @@ const WordleSolver = () => {
                 flexDirection: 'column',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: '#121213',
+                backgroundColor: palette.black,
             }}
         >
             <Box
@@ -45,7 +46,7 @@ const WordleSolver = () => {
                     variant="h4"
                     component="h1"
                     sx={{
-                        color: '#d7dadc',
+                        color: palette.white,
                         py: 2,
                         fontWeight: '300',
                         textAlign: 'center',
@@ -53,7 +54,7 @@ const WordleSolver = () => {
                 >
                     Wordle Solver
                 </Typography>
-                <Divider sx={{ borderColor: '#d7dadc', width: '100%' }} />
+                <Divider sx={{ borderColor: palette.white, width: '100%' }} />
                 <PlacedLetters />
                 <ValidLetters />
                 <BadLetters />
@@ -68,12 +69,12 @@ const WordleSolver = () => {
                                 <Tab
                                     label="Letters"
                                     value="1"
-                                    sx={{ color: '#d7dadc' }}
+                                    sx={{ color: palette.white }}
                                 />
                                 <Tab
                                     label="Words"
                                     value="2"
-                                    sx={{ color: '#d7dadc' }}
+                                    sx={{ color: palette.white }}
                                 />
                             </TabList>
                         </Box>
@@ -82,7 +83,10 @@ const WordleSolver = () => {
                             <MostLikelyLetters analysis={mostLikelyLetters} />
                         </TabPanel>
                         <TabPanel value="2" sx={{ p: 2 }}>
-                            <Suggestions suggestions={suggestions} />
+                            <Suggestions
+                                suggestions={suggestions}
+                                state={state}
+                            />
                         </TabPanel>
                     </TabContext>
                 </Box>

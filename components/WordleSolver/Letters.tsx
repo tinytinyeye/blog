@@ -9,6 +9,7 @@ import {
     SetLetterActionCreator,
     ClearLettersActionCreator,
 } from './hooks';
+import { palette } from './colors';
 
 interface LettersProps {
     variant: LetterVariant;
@@ -42,7 +43,7 @@ const Letters: React.FC<LettersProps> = ({
                 </Box>
                 <Typography
                     variant="h6"
-                    sx={{ color: '#d7dadc', py: 1, textAlign: 'center' }}
+                    sx={{ color: palette.white, py: 1, textAlign: 'center' }}
                 >
                     {title}
                 </Typography>
@@ -50,7 +51,7 @@ const Letters: React.FC<LettersProps> = ({
                     aria-label={`Clear ${title}`}
                     onClick={() => dispatch(clearLetters())}
                 >
-                    <Delete sx={{ fill: '#d7dadc' }} />
+                    <Delete sx={{ fill: palette.white }} />
                 </IconButton>
             </Box>
             {Array(letters.length / LETTERS_PER_ROW)
