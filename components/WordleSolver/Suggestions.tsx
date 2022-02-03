@@ -36,6 +36,7 @@ const Definition = forwardRef<HTMLDivElement, { word: string }>(
                         position: 'sticky',
                         top: 0,
                         zIndex: 1,
+                        width: '100%'
                     }}
                     ref={ref}
                 >
